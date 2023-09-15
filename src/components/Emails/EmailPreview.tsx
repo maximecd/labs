@@ -36,7 +36,7 @@ export default function EmailPreview({
       <div
         {...bind()}
         ref={dragContainer}
-        className="relative z-10 touch-pan-y bg-slate-900  px-6 hover:bg-slate-800"
+        className="betterhover:hover:bg-slate-800 relative z-10 touch-pan-y  bg-slate-900 px-6"
       >
         <div className="flex flex-col gap-1 border-b border-slate-500 py-4">
           <div className="flex items-center justify-between">
