@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useDrag } from '@use-gesture/react'
 
 interface EmailPreviewProps {
   sender: string
@@ -15,82 +16,22 @@ export default function EmailPreview({
   time,
   onDelete,
 }: EmailPreviewProps) {
-  const [isDragging, setIsDragging] = useState(false)
-  const [dragStart, setDragStart] = useState(0)
-
   const dragContainer = useRef<HTMLDivElement | null>(null)
-  const parent = useRef<HTMLDivElement | null>(null)
-  const background = useRef<HTMLDivElement | null>(null)
-  function handleDragStart(e: React.PointerEvent | React.TouchEvent) {
-    const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX
-    setDragStart(clientX)
-    setIsDragging(true)
-  }
 
-  function handleDrag(e: React.PointerEvent | React.TouchEvent) {
-    if (!isDragging) return
-
-    if (!dragContainer.current) return
-
-    const clientX = isTouchEvent(e) ? e.touches[0].clientX : e.clientX
-    const containerX = dragContainer.current.getBoundingClientRect().left
-    const moveX = clientX - dragStart
-
-    dragContainer.current.style.transform = `translateX(${moveX}px)`
-
-    const rightSwipe =
-      parent.current!.getBoundingClientRect().right -
-      dragContainer.current.getBoundingClientRect().right
-
-    const threshold = 0.3
-
-    if (rightSwipe > dragContainer.current.offsetWidth * threshold) {
-      background.current!.style.backgroundColor = 'rgb(185, 43, 43)'
+  const bind = useDrag(({ down, movement: [mx] }) => {
+    if (down) {
+      dragContainer.current!.style.transform = `translateX(${mx}px)`
     } else {
-      background.current!.style.backgroundColor = 'rgb(255, 89, 89)'
+      dragContainer.current!.style.transform = `translateX(0px)`
     }
-  }
-
-  function isTouchEvent(
-    e: React.PointerEvent | React.TouchEvent
-  ): e is React.TouchEvent {
-    return 'touches' in e
-  }
-
-  function handleDragEnd() {
-    if (!isDragging || !dragContainer.current) return
-    setIsDragging(false)
-
-    const rightSwipe =
-      parent.current!.getBoundingClientRect().right -
-      dragContainer.current.getBoundingClientRect().right
-
-    const threshold = 0.3
-
-    if (rightSwipe > dragContainer.current.offsetWidth * threshold) {
-      onDelete()
-      return
-    }
-
-    dragContainer.current.style.transition = 'transform 0.2s ease-out'
-    dragContainer.current.style.transform = 'translateX(0px)'
-
-    setTimeout(() => {
-      dragContainer.current!.style.transition = ''
-    }, 200)
-  }
+  })
 
   return (
-    <div className="relative" ref={parent}>
+    <div className="relative">
       <div
-        className="relative z-10 bg-slate-900 px-6  hover:bg-slate-800"
-        onTouchStart={(e) => handleDragStart(e)}
-        onTouchMove={(e) => handleDrag(e)}
-        onTouchEnd={() => handleDragEnd()}
-        onPointerDown={(e) => handleDragStart(e)}
-        onPointerMove={(e) => handleDrag(e)}
-        onPointerUp={() => handleDragEnd()}
+        {...bind()}
         ref={dragContainer}
+        className="relative z-10 touch-none bg-slate-900  px-6 hover:bg-slate-800"
       >
         <div className="flex flex-col gap-1 border-b border-slate-500 py-4">
           <div className="flex items-center justify-between">
@@ -108,7 +49,6 @@ export default function EmailPreview({
         </div>
       </div>
       <div
-        ref={background}
         className="absolute left-0 top-0 h-full w-full transition"
         style={{
           backgroundColor: 'rgb(255, 89, 89)',
