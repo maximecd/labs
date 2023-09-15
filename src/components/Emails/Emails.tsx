@@ -13,60 +13,64 @@ interface Email {
   content: string
 }
 
-const emails: Email[] = [
-  {
-    id: 1,
-    sender: 'Hannah Morgan',
-    read: true,
-    time: new Date(),
-    subject: 'Meeting scheduled',
-    content:
-      'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-  },
-  {
-    id: 2,
-    sender: 'Hannah Morgan',
-    read: true,
-    time: new Date(),
-    subject: 'Meeting scheduled',
-    content:
-      'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-  },
-  {
-    id: 3,
-    sender: 'Hannah Morgan',
-    read: false,
-    time: new Date(),
-    subject: 'Meeting scheduled',
-    content:
-      'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-  },
-  {
-    id: 4,
-    sender: 'Hannah Morgan',
-    read: true,
-    time: new Date(),
-    subject: 'Meeting scheduled',
-    content:
-      'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-  },
-  {
-    id: 5,
-    sender: 'Hannah Morgan',
-    read: false,
-    time: new Date(),
-    subject: 'Meeting scheduled',
-    content:
-      'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-  },
-]
-
 export default function Emails() {
   let tabs = [
     { title: 'All', id: 'all' },
     { title: 'Read', id: 'read' },
     { title: 'Unread', id: 'unread' },
   ]
+
+  let [emails, setEmails] = useState<Email[]>([
+    {
+      id: 1,
+      sender: 'Hannah Morgan',
+      read: true,
+      time: new Date('2021-09-01T11:00:00'),
+      subject: 'Meeting scheduled',
+      content:
+        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
+    },
+    {
+      id: 2,
+      sender: 'Hannah Morgan',
+      read: true,
+      time: new Date('2021-09-01T11:00:00'),
+
+      subject: 'Meeting scheduled',
+      content:
+        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
+    },
+    {
+      id: 3,
+      sender: 'Hannah Morgan',
+      read: false,
+      time: new Date('2021-09-01T11:00:00'),
+
+      subject: 'Meeting scheduled',
+      content:
+        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
+    },
+    {
+      id: 4,
+      sender: 'Hannah Morgan',
+      read: true,
+      time: new Date('2021-09-01T11:00:00'),
+
+      subject: 'Meeting scheduled',
+      content:
+        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
+    },
+    {
+      id: 5,
+      sender: 'Hannah Morgan',
+      read: false,
+      time: new Date('2021-09-01T11:00:00'),
+
+      subject: 'Meeting scheduled',
+      content:
+        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
+    },
+  ])
 
   let [activeTab, setActiveTab] = useState(tabs[0].id)
 
@@ -86,7 +90,7 @@ export default function Emails() {
           setActiveTab={setActiveTab}
         />
       </div>
-      <div>
+      <div className="overflow-hidden">
         <AnimatePresence initial={false}>
           {filteredEmails.map((email) => (
             <motion.div
@@ -107,6 +111,9 @@ export default function Emails() {
                 subject={email.subject}
                 time={email.time}
                 content={email.content}
+                onDelete={() => {
+                  setEmails((emails) => emails.filter((e) => e.id !== email.id))
+                }}
               />
             </motion.div>
           ))}
