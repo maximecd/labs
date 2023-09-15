@@ -18,20 +18,25 @@ export default function EmailPreview({
 }: EmailPreviewProps) {
   const dragContainer = useRef<HTMLDivElement | null>(null)
 
-  const bind = useDrag(({ down, movement: [mx] }) => {
-    if (down) {
-      dragContainer.current!.style.transform = `translateX(${mx}px)`
-    } else {
-      dragContainer.current!.style.transform = `translateX(0px)`
+  const bind = useDrag(
+    ({ down, movement: [mx] }) => {
+      if (down) {
+        dragContainer.current!.style.transform = `translateX(${mx}px)`
+      } else {
+        dragContainer.current!.style.transform = `translateX(0px)`
+      }
+    },
+    {
+      threshold: 32,
     }
-  })
+  )
 
   return (
     <div className="relative">
       <div
         {...bind()}
         ref={dragContainer}
-        className="relative z-10 touch-none bg-slate-900  px-6 hover:bg-slate-800"
+        className="relative z-10 touch-pan-y bg-slate-900  px-6 hover:bg-slate-800"
       >
         <div className="flex flex-col gap-1 border-b border-slate-500 py-4">
           <div className="flex items-center justify-between">
