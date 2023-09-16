@@ -22,7 +22,7 @@ export default function EmailPreview({
   onStatusChange,
   read,
 }: EmailPreviewProps) {
-  const actionThreshold = 0.22
+  const actionThreshold = 90
 
   const [scope, animate] = useAnimate()
 
@@ -31,6 +31,7 @@ export default function EmailPreview({
   const bind = useDrag(
     ({ down, movement: [mx] }) => {
       setXdrag(mx)
+      console.log(mx)
       animate(
         '[data-drag-bg]',
         {
@@ -82,11 +83,11 @@ export default function EmailPreview({
   }
 
   function shouldDelete(mx: number, width: number) {
-    return width + mx < width * (1 - actionThreshold)
+    return width + mx < width - actionThreshold
   }
 
   function shouldChangeStatus(mx: number, width: number) {
-    return width - mx < width * (1 - actionThreshold)
+    return width - mx < width - actionThreshold
   }
 
   return (

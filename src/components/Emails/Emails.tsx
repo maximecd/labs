@@ -32,7 +32,7 @@ export default function Emails() {
   })
 
   return (
-    <div className="no-scrollbar h-[650px] w-full max-w-sm space-y-4 overflow-y-scroll rounded-3xl border border-slate-700 bg-slate-900 py-6">
+    <div className="no-scrollbar space-y-4 overflow-y-scroll rounded-3xl border border-slate-700 bg-slate-900 py-6">
       <h2 className="px-6 text-2xl  font-bold">Inbox</h2>
       <div className="sticky top-0 z-50 px-6">
         <AnimatedTabs
