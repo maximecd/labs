@@ -2,7 +2,7 @@ export const dummyEmails = [
   {
     id: 1,
     sender: 'Hannah Morgan',
-    read: true,
+    read: false,
     time: new Date('2021-09-01T11:00:00'),
     subject: 'Meeting scheduled',
     content:
@@ -11,7 +11,7 @@ export const dummyEmails = [
   {
     id: 2,
     sender: 'Hannah Morgan',
-    read: true,
+    read: false,
     time: new Date('2021-09-01T11:00:00'),
 
     subject: 'Meeting scheduled',
@@ -31,7 +31,7 @@ export const dummyEmails = [
   {
     id: 4,
     sender: 'Hannah Morgan',
-    read: true,
+    read: false,
     time: new Date('2021-09-01T11:00:00'),
 
     subject: 'Meeting scheduled',

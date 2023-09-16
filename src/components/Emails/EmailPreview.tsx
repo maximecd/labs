@@ -22,7 +22,7 @@ export default function EmailPreview({
   onStatusChange,
   read,
 }: EmailPreviewProps) {
-  const actionThreshold = 90
+  const actionThreshold = 100
 
   const [scope, animate] = useAnimate()
 
@@ -99,7 +99,12 @@ export default function EmailPreview({
       >
         <div className="flex flex-col gap-1 border-b border-slate-500 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-lg font-bold">{sender}</div>
+            <div className="flex items-center gap-2">
+              {!read && (
+                <span className="h-4 w-4 rounded-full bg-green-300"></span>
+              )}
+              <div className="text-lg font-bold">{sender}</div>
+            </div>
             <div className="font-semibold text-blue-200">
               {time.toLocaleTimeString([], {
                 hour: '2-digit',
@@ -114,7 +119,7 @@ export default function EmailPreview({
       </div>
       <div
         data-drag-bg
-        className={`absolute left-0 top-0 flex h-full w-full items-center ${
+        className={`absolute left-0 top-0 flex h-full w-full items-center gap-4 ${
           xdrag < 0 ? 'justify-end' : 'justify-start'
         } px-8 transition`}
       >
@@ -126,8 +131,23 @@ export default function EmailPreview({
 
 function getIcon(xdrag: number, read: boolean) {
   if (xdrag < 0) {
-    return <Trash2 />
+    return (
+      <>
+        Delete
+        <Trash2 />
+      </>
+    )
   } else {
-    return read ? <Circle /> : <CheckCircle />
+    return read ? (
+      <>
+        <Circle />
+        Unread
+      </>
+    ) : (
+      <>
+        <CheckCircle />
+        Read
+      </>
+    )
   }
 }
