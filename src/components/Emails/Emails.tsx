@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import EmailPreview from '@/components/Emails/EmailPreview'
+import { dummyEmails } from '@/components/Emails/dummy'
 
 interface Email {
   id: number
@@ -16,61 +17,11 @@ interface Email {
 export default function Emails() {
   let tabs = [
     { title: 'All', id: 'all' },
-    { title: 'Read', id: 'read' },
     { title: 'Unread', id: 'unread' },
+    { title: 'Read', id: 'read' },
   ]
 
-  let [emails, setEmails] = useState<Email[]>([
-    {
-      id: 1,
-      sender: 'Hannah Morgan',
-      read: true,
-      time: new Date('2021-09-01T11:00:00'),
-      subject: 'Meeting scheduled',
-      content:
-        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-    },
-    {
-      id: 2,
-      sender: 'Hannah Morgan',
-      read: true,
-      time: new Date('2021-09-01T11:00:00'),
-
-      subject: 'Meeting scheduled',
-      content:
-        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-    },
-    {
-      id: 3,
-      sender: 'Hannah Morgan',
-      read: false,
-      time: new Date('2021-09-01T11:00:00'),
-
-      subject: 'Meeting scheduled',
-      content:
-        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-    },
-    {
-      id: 4,
-      sender: 'Hannah Morgan',
-      read: true,
-      time: new Date('2021-09-01T11:00:00'),
-
-      subject: 'Meeting scheduled',
-      content:
-        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-    },
-    {
-      id: 5,
-      sender: 'Hannah Morgan',
-      read: false,
-      time: new Date('2021-09-01T11:00:00'),
-
-      subject: 'Meeting scheduled',
-      content:
-        'Hi James, i just scheduled a meeting with the team to go over the design so our frontend devs can start the job !',
-    },
-  ])
+  let [emails, setEmails] = useState<Email[]>(dummyEmails)
 
   let [activeTab, setActiveTab] = useState(tabs[0].id)
 
@@ -114,6 +65,14 @@ export default function Emails() {
                 onDelete={() => {
                   setEmails((emails) => emails.filter((e) => e.id !== email.id))
                 }}
+                onStatusChange={() => {
+                  setEmails((emails) =>
+                    emails.map((e) =>
+                      e.id === email.id ? { ...e, read: !e.read } : e
+                    )
+                  )
+                }}
+                read={email.read}
               />
             </motion.div>
           ))}

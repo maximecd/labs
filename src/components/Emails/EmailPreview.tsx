@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useDrag } from '@use-gesture/react'
 import { useAnimate } from 'framer-motion'
-import { Trash2 } from 'lucide-react'
+import { CheckCircle, Circle, Trash2 } from 'lucide-react'
 
 interface EmailPreviewProps {
   sender: string
@@ -9,6 +9,8 @@ interface EmailPreviewProps {
   content: string
   time: Date
   onDelete: () => void
+  onStatusChange: () => void
+  read: boolean
 }
 
 export default function EmailPreview({
@@ -17,22 +19,25 @@ export default function EmailPreview({
   content,
   time,
   onDelete,
+  onStatusChange,
+  read,
 }: EmailPreviewProps) {
   const actionThreshold = 0.22
 
   const [scope, animate] = useAnimate()
 
+  const [xdrag, setXdrag] = useState(0)
+
   const bind = useDrag(
     ({ down, movement: [mx] }) => {
+      setXdrag(mx)
       animate(
         '[data-drag-bg]',
         {
-          backgroundColor: shouldDelete(mx, scope.current.offsetWidth)
-            ? 'rgb(172, 34, 34)'
-            : 'rgb(255, 89, 89)',
+          backgroundColor: getColor(mx, scope.current.offsetWidth),
         },
         {
-          duration: 0.1,
+          duration: 0,
         }
       )
       if (down) {
@@ -47,9 +52,17 @@ export default function EmailPreview({
         )
       } else if (shouldDelete(mx, scope.current.offsetWidth)) {
         onDelete()
+      } else if (shouldChangeStatus(mx, scope.current.offsetWidth)) {
+        onStatusChange()
+        animate('[data-drag-container]', {
+          x: 0,
+        })
       } else {
         animate('[data-drag-container]', {
           x: 0,
+        })
+        animate('[data-drag-bg]', {
+          backgroundColor: 'rgba(0,0,0,0)',
         })
       }
     },
@@ -58,8 +71,22 @@ export default function EmailPreview({
     }
   )
 
+  function getColor(mx: number, width: number) {
+    if (mx < 0) {
+      return shouldDelete(mx, width) ? 'rgb(172, 34, 34)' : 'rgb(255, 89, 89)'
+    } else {
+      return shouldChangeStatus(mx, width)
+        ? 'rgb(12, 179, 48)'
+        : 'rgb(89, 255, 125)'
+    }
+  }
+
   function shouldDelete(mx: number, width: number) {
     return width + mx < width * (1 - actionThreshold)
+  }
+
+  function shouldChangeStatus(mx: number, width: number) {
+    return width - mx < width * (1 - actionThreshold)
   }
 
   return (
@@ -86,13 +113,20 @@ export default function EmailPreview({
       </div>
       <div
         data-drag-bg
-        className="absolute left-0 top-0 flex h-full w-full items-center justify-end px-8 transition"
-        style={{
-          backgroundColor: 'rgb(255, 89, 89)',
-        }}
+        className={`absolute left-0 top-0 flex h-full w-full items-center ${
+          xdrag < 0 ? 'justify-end' : 'justify-start'
+        } px-8 transition`}
       >
-        <Trash2 />
+        {getIcon(xdrag, read)}
       </div>
     </div>
   )
+}
+
+function getIcon(xdrag: number, read: boolean) {
+  if (xdrag < 0) {
+    return <Trash2 />
+  } else {
+    return read ? <Circle /> : <CheckCircle />
+  }
 }
