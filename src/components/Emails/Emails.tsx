@@ -32,7 +32,7 @@ export default function Emails() {
   })
 
   return (
-    <div className="no-scrollbar space-y-4 overflow-y-scroll rounded-3xl border border-slate-700 bg-slate-900 py-6">
+    <div className="no-scrollbar h-full space-y-4 overflow-y-scroll rounded-3xl border border-slate-700 bg-slate-900 pt-6">
       <h2 className="px-6 text-2xl  font-bold">Inbox</h2>
       <div className="sticky top-0 z-50 px-6">
         <AnimatedTabs
@@ -41,7 +41,7 @@ export default function Emails() {
           setActiveTab={setActiveTab}
         />
       </div>
-      <div className="select-none overflow-hidden">
+      <div className=" select-none overflow-hidden">
         <AnimatePresence initial={false}>
           {filteredEmails.map((email) => (
             <motion.div
@@ -76,6 +76,18 @@ export default function Emails() {
               />
             </motion.div>
           ))}
+          {filteredEmails.length === 0 && (
+            <div className="h-full space-y-4 px-4 pt-8 text-center">
+              <div className="italic text-slate-500">
+                {"It's very lonely here."}
+              </div>
+              {emails.length > 0 && (
+                <div>
+                  You can mark emails as read/unread by swiping left on them.
+                </div>
+              )}
+            </div>
+          )}
         </AnimatePresence>
       </div>
     </div>
