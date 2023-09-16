@@ -13,6 +13,8 @@ interface EmailPreviewProps {
   read: boolean
 }
 
+const actionThreshold = 100
+
 export default function EmailPreview({
   sender,
   subject,
@@ -22,8 +24,6 @@ export default function EmailPreview({
   onStatusChange,
   read,
 }: EmailPreviewProps) {
-  const actionThreshold = 100
-
   const [scope, animate] = useAnimate()
 
   const [xdrag, setXdrag] = useState(0)
@@ -72,24 +72,6 @@ export default function EmailPreview({
     }
   )
 
-  function getColor(mx: number, width: number) {
-    if (mx < 0) {
-      return shouldDelete(mx, width) ? 'rgb(172, 34, 34)' : 'rgb(255, 89, 89)'
-    } else {
-      return shouldChangeStatus(mx, width)
-        ? 'rgb(12, 179, 48)'
-        : 'rgb(89, 255, 125)'
-    }
-  }
-
-  function shouldDelete(mx: number, width: number) {
-    return width + mx < width - actionThreshold
-  }
-
-  function shouldChangeStatus(mx: number, width: number) {
-    return width - mx < width - actionThreshold
-  }
-
   return (
     <div className="relative" ref={scope}>
       <div
@@ -127,6 +109,24 @@ export default function EmailPreview({
       </div>
     </div>
   )
+}
+
+function getColor(mx: number, width: number) {
+  if (mx < 0) {
+    return shouldDelete(mx, width) ? 'rgb(172, 34, 34)' : 'rgb(255, 89, 89)'
+  } else {
+    return shouldChangeStatus(mx, width)
+      ? 'rgb(12, 179, 48)'
+      : 'rgb(89, 255, 125)'
+  }
+}
+
+function shouldDelete(mx: number, width: number) {
+  return width + mx < width - actionThreshold
+}
+
+function shouldChangeStatus(mx: number, width: number) {
+  return width - mx < width - actionThreshold
 }
 
 function getIcon(xdrag: number, read: boolean) {
