@@ -83,7 +83,7 @@ export default function EmailPreview({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {!read && (
-                <span className="h-4 w-4 rounded-full bg-green-300"></span>
+                <span className="h-3 w-3 rounded-full bg-green-300"></span>
               )}
               <div className="text-lg font-bold">{sender}</div>
             </div>
