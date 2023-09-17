@@ -31,7 +31,6 @@ export default function EmailPreview({
   const bind = useDrag(
     ({ down, movement: [mx] }) => {
       setXdrag(mx)
-      console.log(mx)
       animate(
         '[data-drag-bg]',
         {

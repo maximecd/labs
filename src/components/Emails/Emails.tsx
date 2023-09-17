@@ -15,15 +15,15 @@ interface Email {
 }
 
 export default function Emails() {
-  let tabs = [
+  const tabs = [
     { title: 'All', id: 'all' },
     { title: 'Unread', id: 'unread' },
     { title: 'Read', id: 'read' },
   ]
 
-  let [emails, setEmails] = useState<Email[]>(dummyEmails)
+  const [emails, setEmails] = useState<Email[]>(dummyEmails)
 
-  let [activeTab, setActiveTab] = useState(tabs[0].id)
+  const [activeTab, setActiveTab] = useState(tabs[0].id)
 
   const filteredEmails = emails.filter((email) => {
     if (activeTab === 'all') return true
@@ -41,7 +41,7 @@ export default function Emails() {
           setActiveTab={setActiveTab}
         />
       </div>
-      <div className=" select-none overflow-hidden">
+      <div className="select-none overflow-hidden pb-6">
         <AnimatePresence initial={false}>
           {filteredEmails.map((email) => (
             <motion.div
