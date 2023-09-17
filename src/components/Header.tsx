@@ -6,10 +6,18 @@ export default function Header() {
       <nav>
         <ul className="flex justify-between">
           <li>
-            <Link href="/">mc/labs</Link>
+            <Link className="hover:underline" href="/">
+              mc/labs
+            </Link>
           </li>
           <li>
-            <Link href="https://maximecd.com">portfolio</Link>
+            <Link
+              className="hover:underline"
+              target="_blank"
+              href="https://maximecd.com"
+            >
+              portfolio
+            </Link>
           </li>
         </ul>
       </nav>
