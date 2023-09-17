@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-slate-950 text-white ${inter.className}`}>
-        <main className="mx-auto w-full max-w-[min(100%-48px,1100px)]">
+        <main className="mx-auto w-full max-w-[min(100%-48px,900px)]">
           <Header />
           {children}
         </main>

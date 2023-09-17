@@ -41,7 +41,7 @@ export default function Emails() {
           setActiveTab={setActiveTab}
         />
       </div>
-      <div className=" select-none overflow-hidden">
+      <div className="select-none overflow-hidden pb-6">
         <AnimatePresence initial={false}>
           {filteredEmails.map((email) => (
             <motion.div
