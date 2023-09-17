@@ -1,3 +1,4 @@
+import Header from '@/components/Header'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -17,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`bg-slate-950 text-white ${inter.className}`}>
-        {children}
+        <main className="mx-auto w-full max-w-[min(100%-48px,1100px)]">
+          <Header />
+          {children}
+        </main>
       </body>
     </html>
   )

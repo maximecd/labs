@@ -1,12 +1,13 @@
 import Emails from '@/components/Emails/Emails'
+import Showcase from '@/components/Showcase'
 import Image from 'next/image'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-6 md:p-24">
-      <div className="h-[650px] w-full max-w-sm">
+    <div className="mt-32 grid grid-rows-[repeat(auto-fill,600px)] md:grid-cols-3">
+      <Showcase cols={2}>
         <Emails />
-      </div>
-    </main>
+      </Showcase>
+    </div>
   )
 }
